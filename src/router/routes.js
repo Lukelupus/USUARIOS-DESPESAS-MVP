@@ -12,11 +12,15 @@ const routes = [
   },
   {
     path: "/despesas/edit/:id",
-    component: () => import("pages/ExpenseEdit.vue"),
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/ExpenseEdit.vue") }],
   },
   {
     path: "/despesas/cadastrar",
-    component: () => import("pages/ExpenseCreate.vue"),
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ExpenseCreate.vue") },
+    ],
   },
   {
     path: "/usuarios",
@@ -25,7 +29,10 @@ const routes = [
   },
   {
     path: "/usuarios/:id",
-    component: () => import("pages/UserDetails.vue"),
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("src/pages/UserExpenses.vue") },
+    ],
   },
 
   // Always leave this as last one,

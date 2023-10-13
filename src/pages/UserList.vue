@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Lista de Usuários</h1>
+  <div style="margin: 5em">
+    <h1 style="font-size: 3rem">Lista de Usuários</h1>
     <q-table :rows="usuarios" :columns="columns">
       <template v-slot:body="props">
         <q-tr :props="props">

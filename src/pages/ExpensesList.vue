@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <h1>Lista de Despesas Cadastradas</h1>
+  <div style="margin: 5em">
+    <h1 style="font-size: 3rem">Lista de Despesas Cadastradas</h1>
     <q-table :rows="despesas" :columns="columns">
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="nome">{{ props.row.name }}</q-td>
-          <q-td key="email">{{ props.row.email }}</q-td>
-
-          <q-td key="descricao">{{ props.row.descricao }}</q-td>
           <q-td key="data">{{ props.row.data }}</q-td>
+          <q-td key="descricao">{{ props.row.descricao }}</q-td>
+
+          <q-td key="descricao">{{ props.row.valor }}</q-td>
+          <q-td key="data">{{ props.row.user.name }}</q-td>
 
           <q-td key="acoes">
             <q-btn @click="editarDespesa(props.row.id)" label="Editar" />
@@ -33,20 +33,30 @@ export default {
       despesas: [], // Array para armazenar os usuários
       columns: [
         {
-          name: "nome",
+          name: "data",
           required: true,
-          label: "Nome",
+          label: "Data Da Despesa",
           align: "left",
-          field: "nome",
+          field: "data",
           sortable: true,
         },
         {
-          name: "email",
+          name: "Descrição",
           required: true,
-          label: "E-mail",
+          label: "Descrição",
           align: "left",
-          field: "email",
+          field: "descricao",
           sortable: true,
+        },
+        {
+          name: "Valor",
+          label: "Valor",
+          align: "left",
+        },
+        {
+          name: "email",
+          label: "Empresa",
+          align: "left",
         },
         {
           name: "acoes",
@@ -58,23 +68,22 @@ export default {
   },
   methods: {
     editarDespesa(id) {
-      this.$router.push(`/despesas/${id}`);
+      this.$router.push(`/despesas/edit/${id}`);
     },
     excluirDespesa(id) {
-      this.$axios
-        .delete(`despesas/${id}`)
+      axiosInstance
+        .delete(`despesas/${id}/excluir`)
         .then((response) => {
-          console.log("Usuário excluído com sucesso:", response.data);
-          // Atualizar a lista de usuários após a exclusão
+          console.log(response.data);
+
           this.buscardespesas();
         })
         .catch((error) => {
-          console.error("Erro ao excluir usuário:", error);
+          console.error(error);
         });
     },
     buscardespesas() {
-      // Implemente a lógica para buscar a lista de usuários da sua API Laravel
-      this.$axios
+      axiosInstance
         .get("despesas")
         .then((response) => {
           this.despesas = response.data;
